@@ -1,30 +1,16 @@
 package cooking
 
-// ─────────────────────────────────────────────
-// UI Helpers
-// ─────────────────────────────────────────────
-fun printBanner() {
-    println("""
-╔═══════════════════════════════════════════════════╗
-║                                                   ║
-║    🍴  KOTLIN COOKING APP  🍴                     ║
-║    Your Personal Recipe Manager                   ║
-║                                                   ║
-╚═══════════════════════════════════════════════════╝
-""")
-}
-
 fun printMenu() {
     println("""
-┌─────────────────────────────────────────┐
-│  MAIN MENU                              │
-│  1. List all recipes                    │
-│  2. Search by name                      │
-│  3. Search by ingredient                │
-│  4. Search by type                      │
-│  5. View recipe details                 │
-│  0. Exit                                │
-└─────────────────────────────────────────┘
+
+      MAIN MENU    
+  1. List all recipes
+  2. Search by name
+  3. Search by ingredient
+  4. Search by type
+  5. View recipe details
+  0. Exit 
+
 Enter choice: """.trimIndent())
 }
 
@@ -32,17 +18,17 @@ fun displaySearchResults(results: List<Recipe>, query: String) {
     if (results.isEmpty()) {
         println("🔍 No recipes found matching '$query'")
     } else {
-        println("\n🔍 Found ${results.size} recipe(s) for '$query':")
+        println("\nFound ${results.size} recipe(s) for '$query':")
         println("─".repeat(50))
         results.forEachIndexed { i, r ->
-            val time = if (r is CookingMethod) " | ⏱️ ${r.getCookingTime().toInt()} min" else ""
+            val time = if (r is CookingMethod) " ${r.getCookingTime().toInt()} min" else ""
             println("  ${i + 1}. ${r.name} [${r.getRecipeType()}]$time")
         }
     }
 }
 
 // ─────────────────────────────────────────────
-// Sample Data Loader
+// Sample  Data
 // ─────────────────────────────────────────────
 fun loadSampleData(engine: RecipeSearch) {
     engine.addRecipe(VegetarianRecipe(
@@ -66,13 +52,9 @@ fun loadSampleData(engine: RecipeSearch) {
     ))
 }
 
-// ─────────────────────────────────────────────
-// Main Entry Point
-// ─────────────────────────────────────────────
 fun main() {
-    printBanner()
     val engine = RecipeSearch()
-    println("📥 Loading sample recipes...")
+    println("Loading sample recipes...")
     loadSampleData(engine)
     println()
 
@@ -100,13 +82,13 @@ fun main() {
                 print("\nEnter recipe name: ")
                 val q = readLine()?.trim() ?: ""
                 val results = engine.searchByName(q)
-                if (results.isEmpty()) println("❌ Not found.") else results.forEach { println(it) }
+                if (results.isEmpty()) println("Not found.") else results.forEach { println(it) }
             }
             "0" -> {
-                println("\n👋 Thanks for using Kotlin Cooking App! Happy cooking!")
+                println("\nThanks for using Kotlin Cooking App! Happy cooking!")
                 running = false
             }
-            else -> println("❌ Invalid option. Please try again.")
+            else -> println("Invalid option. Please try again.")
         }
         println()
     }

@@ -21,15 +21,13 @@ abstract class Recipe(
 
     override fun toString(): String {
         return """
-╔══════════════════════════════════════════════╗
   $name - ${getRecipeType()}
-══════════════════════════════════════════════
-  🧂 Ingredients:
+  Ingredients:
 ${ingredients.joinToString("\n") { "     • $it" }}
 
-  📋 Instructions:
+  Instructions:
      $instructions
-╚══════════════════════════════════════════════╝
+
 """.trimIndent()
     }
 }

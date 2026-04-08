@@ -19,13 +19,13 @@ class RecipeSearch {
 
     fun listAll() {
         if (recipes.isEmpty()) {
-            println("📭 No recipes found.")
+            println("No recipes found.")
             return
         }
-        println("\n📚 ALL RECIPES (${recipes.size} total)")
+        println("\nALL RECIPES (${recipes.size} total)")
         println("═".repeat(50))
         recipes.forEachIndexed { i, r ->
-            val cookingInfo = if (r is CookingMethod) " | ⏱️ ${r.getCookingTime().toInt()} min" else ""
+            val cookingInfo = if (r is CookingMethod) " | ${r.getCookingTime().toInt()} min" else ""
             println("  ${i + 1}. [${r.getRecipeType()}] ${r.name}$cookingInfo")
         }
         println("═".repeat(50))

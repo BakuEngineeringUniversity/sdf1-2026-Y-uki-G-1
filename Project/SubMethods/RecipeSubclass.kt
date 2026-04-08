@@ -7,7 +7,7 @@ class VegetarianRecipe(
     ingredients: List<String>,
     instructions: String
 ) : Recipe(name, ingredients, instructions) {
-    override fun getRecipeType(): String = "🥦 Vegetarian"
+    override fun getRecipeType(): String = "Vegetarian"
 }
 
 // ─────────────────────────────────────────────
@@ -18,7 +18,7 @@ class NonVegetarianRecipe(
     ingredients: List<String>,
     instructions: String
 ) : Recipe(name, ingredients, instructions) {
-    override fun getRecipeType(): String = "🥩 Non-Vegetarian"
+    override fun getRecipeType(): String = "Non-Vegetarian"
 }
 
 // ─────────────────────────────────────────────
@@ -34,11 +34,11 @@ class BakingRecipe(
 ) : Recipe(name, ingredients, instructions), CookingMethod {
 
     override fun getCookingTime(): Double = bakeTime.toDouble()
-    override fun getRecipeType(): String = "🍰 Baking"
+    override fun getRecipeType(): String = "Baking"
 
     override fun toString(): String {
         return super.toString() +
-            "\n  🌡️  Oven: ${ovenTemp}°C | ⏱️ Bake Time: ${bakeTime} min"
+            "\n Oven: ${ovenTemp}°C | Bake Time: ${bakeTime} min"
     }
 }
 
