@@ -1,0 +1,104 @@
+package cookingapp
+
+        fun main() {
+        val searchEngine = RecipeSearch()
+
+        // --- PRE-POPULATING DATA ---
+        println("System: Loading default recipes...")
+
+        searchEngine.addRecipe(VegetarianRecipe(
+        name = "Garden Salad",
+        ingredients = mutableListOf("Lettuce", "Tomato", "Cucumber", "Olive Oil"),
+        instructions = "Chop all vegetables and toss with olive oil."
+        ))
+
+        searchEngine.addRecipe(NonVegetarianRecipe(
+        name = "Garlic Butter Steak",
+        ingredients = mutableListOf("Beef Steak", "Garlic", "Butter", "Salt", "Pepper"),
+        instructions = "Season steak. Sear in a pan with butter and garlic until cooked."
+        ))
+
+        searchEngine.addRecipe(BakingRecipe(
+        name = "Chocolate Chip Cookies",
+        ingredients = mutableListOf("Flour", "Sugar", "Butter", "Chocolate Chips", "Eggs"),
+        instructions = "Mix ingredients, roll into dough balls, and bake.",
+        _oven_temp = 180.0f,
+        _bake_time = 15.0f
+        ))
+        println("System: Ready!\n")
+
+        var isRunning = true
+
+        while (isRunning) {
+        println("\n==============================")
+        println("      COOKING APP MENU        ")
+        println("==============================")
+        println("1. Add a New Recipe")
+        println("2. Search by Recipe Name")
+        println("3. Search by Ingredient")
+        println("4. View All Recipes")
+        println("5. Exit Application")
+        print("Choose an option: ")
+
+        when (readlnOrNull()?.trim()) {
+        "1" -> {
+        println("\nSelect Recipe Type:")
+        println("1: Vegetarian")
+        println("2: Non-Vegetarian")
+        println("3: Baking")
+        print("Choice: ")
+        val type = readlnOrNull()?.trim()
+
+        print("Enter Recipe Name: ")
+        val rName = readlnOrNull()?.trim() ?: "Unnamed Recipe"
+
+        print("Enter Ingredients (separated by commas): ")
+        val rIngInput = readlnOrNull()?.trim() ?: ""
+        val rIng = rIngInput.split(",").map { it.trim() }.toMutableList()
+
+        print("Enter Instructions: ")
+        val rInst = readlnOrNull()?.trim() ?: "No instructions provided."
+
+        val newRecipe: Recipe = when (type) {
+        "1" -> VegetarianRecipe(rName, rIng, rInst)
+        "2" -> NonVegetarianRecipe(rName, rIng, rInst)
+        "3" -> {
+        print("Enter Oven Temperature (e.g., 200.0): ")
+        val temp = readlnOrNull()?.toFloatOrNull() ?: 180.0f
+        print("Enter Bake Time in minutes (e.g., 30.0): ")
+        val time = readlnOrNull()?.toFloatOrNull() ?: 30.0f
+        BakingRecipe(rName, rIng, rInst, temp, time)
+        }
+        else -> {
+        println("Invalid type. Defaulting to Vegetarian.")
+        VegetarianRecipe(rName, rIng, rInst)
+        }
+        }
+        searchEngine.addRecipe(newRecipe)
+        }
+        "2" -> {
+        print("\nEnter recipe name to search: ")
+        val query = readlnOrNull()?.trim() ?: ""
+        val results = searchEngine.search_by_name(query)
+        if (results.isEmpty()) println("Result: No recipes found with that name.")
+        else results.forEach { recipe: Recipe -> recipe.displayDetails() }
+        }
+        "3" -> {
+        print("\nEnter ingredient to search: ")
+        val query = readlnOrNull()?.trim() ?: ""
+        val results = searchEngine.search_by_ingredient(query)
+        if (results.isEmpty()) println("Result: No recipes found with that ingredient.")
+        else results.forEach { recipe: Recipe -> recipe.displayDetails() }
+        }
+        "4" -> {
+        println("\nAction Completed: Fetching all recipes...")
+        searchEngine.viewAllRecipes()
+        }
+        "5" -> {
+        println("\nAction Completed: Exiting App. Goodbye!")
+        isRunning = false
+        }
+        else -> println("\nError: Invalid selection. Please type a number from 1 to 5.")
+        }
+        }
+        }
